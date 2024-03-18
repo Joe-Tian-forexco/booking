@@ -1,0 +1,15 @@
+services:
+  reservations:
+    build:
+      context: .
+      dockerfile: ./apps/reservations/Dockerfile
+      target: development
+    command: yarn dev
+    ports:
+      - 4444:4444
+    volumes:
+      - .:/usr/src/app
+  mongo:
+    image: mongo:4.4
+    ports:
+      - 27017:27017
