@@ -9,6 +9,16 @@ services:
       - 4444:4444
     volumes:
       - .:/usr/src/app
+  auth:
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile
+      target: development
+    command: yarn dev auth
+    ports:
+      - 4001:4001
+    volumes:
+      - .:/usr/src/app
   mongo:
     image: mongo:4.4
     ports:
