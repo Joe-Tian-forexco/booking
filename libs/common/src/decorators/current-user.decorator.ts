@@ -1,5 +1,5 @@
 import { ExecutionContext, createParamDecorator } from '@nestjs/common';
-import { UserDocument } from './users/models/user.schema';
+import { UserDocument } from 'apps/auth/src/users/models/user.schema';
 
 // Note: we are getting user from the request object, because we are using passport-local strategy
 const getCurrentUserByContext = (context: ExecutionContext): UserDocument => {

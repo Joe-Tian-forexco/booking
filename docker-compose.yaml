@@ -23,6 +23,18 @@ services:
       - 4001:4001
     volumes:
       - .:/usr/src/app
+  payments:
+    build:
+      context: .
+      dockerfile: ./apps/payments/Dockerfile
+      target: development
+    command: yarn dev payments
+    env_file:
+      - ./apps/payments/.env
+    ports:
+      - 4003:4003
+    volumes:
+      - .:/usr/src/app
   mongo:
     image: mongo:4.4
     ports:
