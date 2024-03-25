@@ -12,7 +12,7 @@ async function bootstrap() {
     transport: Transport.TCP,
     options: {
       host: '0.0.0.0',
-      port: configService.get('PAYMENT_TCP_PORT'),
+      port: configService.get('PAYMENTS_TCP_PORT'),
     },
   });
 

@@ -11,7 +11,7 @@ import * as Joi from 'joi';
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({
-        PAYMENT_TCP_PORT: Joi.number().required(),
+        PAYMENTS_TCP_PORT: Joi.number().required(),
         STRIPE_SECRET_KEY: Joi.string().required(),
       }),
     }),
