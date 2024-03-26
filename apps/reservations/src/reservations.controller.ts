@@ -27,6 +27,18 @@ export class ReservationsController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Post('/intent')
+  async createWithIntent(
+    @Body() createReservationDto: CreateReservationDto,
+    @CurrentUser() user: UserDto,
+  ) {
+    return this.reservationsService.createChargedReservation(
+      createReservationDto,
+      user._id,
+    );
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get()
   async findAll() {
     return this.reservationsService.findAll();

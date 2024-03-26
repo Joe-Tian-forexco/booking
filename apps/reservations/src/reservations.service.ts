@@ -4,6 +4,7 @@ import { UpdateReservationDto } from './dto/update-reservation.dto';
 import { ReservationsRepository } from './reservations.repository';
 import { PAYMENTS_SERVICE } from '@app/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { map } from 'rxjs';
 
 @Injectable()
 export class ReservationsService {
@@ -13,19 +14,42 @@ export class ReservationsService {
   ) {}
 
   async create(createReservationDto: CreateReservationDto, userId: string) {
-    this.paymentsService
+    return this.paymentsService
       .send('create_stripe_product', createReservationDto.product)
-      .subscribe(async (response) => {
-        const reservation = await this.reservationsRepository.create({
-          ...createReservationDto,
-          timestamp: new Date(),
-          userId,
-        });
+      .pipe(
+        map(async (response) => {
+          // console.log('response----->', response);
+          const reservation = await this.reservationsRepository.create({
+            ...createReservationDto,
+            timestamp: new Date(),
+            userId,
+            productId: response.id,
+          });
 
-        console.log('response----->', response);
+          return reservation;
+        }),
+      );
+  }
 
-        return reservation;
-      });
+  async createChargedReservation(
+    createReservationDto: CreateReservationDto,
+    userId: string,
+  ) {
+    return this.paymentsService
+      .send('create_charge', createReservationDto.charge)
+      .pipe(
+        map(async (response) => {
+          // console.log('response----->', response);
+          const reservation = await this.reservationsRepository.create({
+            ...createReservationDto,
+            timestamp: new Date(),
+            userId,
+            paymentIntentId: response.id,
+          });
+
+          return reservation;
+        }),
+      );
   }
 
   async findAll() {

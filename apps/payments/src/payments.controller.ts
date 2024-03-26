@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, UsePipes, ValidationPipe } from '@nestjs/common';
 import { PaymentsService } from './payments.service';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { CreateChargeDto } from '@app/common';
@@ -14,6 +14,7 @@ export class PaymentsController {
   }
 
   @MessagePattern('create_stripe_product')
+  @UsePipes(new ValidationPipe())
   async createStripeProduct(@Payload() data: CreateProductDto) {
     return this.paymentsService.createStripeProduct(data);
   }
