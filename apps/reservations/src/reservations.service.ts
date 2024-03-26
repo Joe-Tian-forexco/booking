@@ -14,7 +14,7 @@ export class ReservationsService {
 
   async create(createReservationDto: CreateReservationDto, userId: string) {
     this.paymentsService
-      .send('create_charge', createReservationDto.charge)
+      .send('create_stripe_product', createReservationDto.product)
       .subscribe(async (response) => {
         const reservation = await this.reservationsRepository.create({
           ...createReservationDto,
