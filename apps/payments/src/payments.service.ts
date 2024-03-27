@@ -1,11 +1,17 @@
-import { CreateChargeDto } from '@app/common';
-import { Injectable } from '@nestjs/common';
+import { CreateChargeDto, NOTIFICATIONS_SERVICE } from '@app/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { ClientProxy } from '@nestjs/microservices';
 import Stripe from 'stripe';
+import { PaymentsCreateProductDto } from './dto/payments-create-product.dto';
 
 @Injectable()
 export class PaymentsService {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(
+    private readonly configService: ConfigService,
+    @Inject(NOTIFICATIONS_SERVICE)
+    private readonly notificationsService: ClientProxy,
+  ) {}
 
   private readonly stripe = new Stripe(
     this.configService.get('STRIPE_SECRET_KEY'),
@@ -29,9 +35,19 @@ export class PaymentsService {
   }
 
   // Note: i am using the product api to follow demo
-  async createStripeProduct(data: Stripe.ProductCreateParams) {
+  async createStripeProduct(data: PaymentsCreateProductDto) {
     // Note: destructure more in the future
-    const { name, description } = data;
-    return this.stripe.products.create({ name, description });
+    const { name, description, email: loginUserEmail } = data;
+    const stripeProduct = await this.stripe.products.create({
+      name,
+      description,
+    });
+
+    this.notificationsService.emit('notify_email', {
+      email: loginUserEmail,
+      product: stripeProduct,
+    });
+
+    return stripeProduct;
   }
 }

@@ -1,3 +1,5 @@
+# Notes: payments and notification using tcp, no need for ports
+
 services:
   reservations:
     build:
@@ -31,8 +33,16 @@ services:
     command: yarn dev payments
     env_file:
       - ./apps/payments/.env
-    ports:
-      - 4003:4003
+    volumes:
+      - .:/usr/src/app
+  notifications:
+    build:
+      context: .
+      dockerfile: ./apps/notifications/Dockerfile
+      target: development
+    command: yarn dev notifications
+    env_file:
+      - ./apps/notifications/.env
     volumes:
       - .:/usr/src/app
   mongo:
