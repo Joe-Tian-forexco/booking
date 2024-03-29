@@ -43,7 +43,7 @@ export class PaymentsService {
       description,
     });
 
-    const contentText = `Product ${stripeProduct.name} created with description ${stripeProduct.description}`
+    const contentText = `Product ${stripeProduct.name} created with description ${stripeProduct.description}`;
 
     this.notificationsService.emit('notify_email', {
       email: loginUserEmail,
