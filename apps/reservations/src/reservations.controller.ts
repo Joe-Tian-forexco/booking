@@ -38,7 +38,7 @@ export class ReservationsController {
     );
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get()
   async findAll() {
     return this.reservationsService.findAll();
