@@ -13,38 +13,38 @@ services:
       - 4444:4444
     volumes:
       - .:/usr/src/app
-  # auth:
-  #   build:
-  #     context: .
-  #     dockerfile: ./apps/auth/Dockerfile
-  #     target: development
-  #   command: yarn dev auth
-  #   env_file:
-  #     - ./apps/auth/.env
-  #   ports:
-  #     - 4001:4001
-  #   volumes:
-  #     - .:/usr/src/app
-  # payments:
-  #   build:
-  #     context: .
-  #     dockerfile: ./apps/payments/Dockerfile
-  #     target: development
-  #   command: yarn dev payments
-  #   env_file:
-  #     - ./apps/payments/.env
-  #   volumes:
-  #     - .:/usr/src/app
-  # notifications:
-  #   build:
-  #     context: .
-  #     dockerfile: ./apps/notifications/Dockerfile
-  #     target: development
-  #   command: yarn dev notifications
-  #   env_file:
-  #     - ./apps/notifications/.env
-  #   volumes:
-  #     - .:/usr/src/app
+  auth:
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile
+      target: development
+    command: yarn dev auth
+    env_file:
+      - ./apps/auth/.env
+    ports:
+      - 4001:4001
+    volumes:
+      - .:/usr/src/app
+  payments:
+    build:
+      context: .
+      dockerfile: ./apps/payments/Dockerfile
+      target: development
+    command: yarn dev payments
+    env_file:
+      - ./apps/payments/.env
+    volumes:
+      - .:/usr/src/app
+  notifications:
+    build:
+      context: .
+      dockerfile: ./apps/notifications/Dockerfile
+      target: development
+    command: yarn dev notifications
+    env_file:
+      - ./apps/notifications/.env
+    volumes:
+      - .:/usr/src/app
   mongo:
     image: mongo:4.4
     ports:

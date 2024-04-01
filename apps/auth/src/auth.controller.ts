@@ -32,4 +32,9 @@ export class AuthController {
   async authenticate(@Payload() data: any) {
     return data.user;
   }
+
+  @Get('/health')
+  healthCheck() {
+    return 'auth service is up and running!';
+  }
 }

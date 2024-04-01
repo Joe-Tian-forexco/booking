@@ -44,14 +44,14 @@ export class ReservationsController {
     return this.reservationsService.findAll();
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get(':id')
+  // @UseGuards(JwtAuthGuard)
+  @Get('reservations/:id')
   async findOne(@Param('id') id: string) {
     return this.reservationsService.findOne(id);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Patch(':id')
+  @Patch('reservations/:id')
   async update(
     @Param('id') id: string,
     @Body() updateReservationDto: UpdateReservationDto,
@@ -60,8 +60,13 @@ export class ReservationsController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Delete(':id')
+  @Delete('reservations/:id')
   async remove(@Param('id') id: string) {
     return this.reservationsService.remove(id);
+  }
+
+  @Get('/health')
+  healthCheck() {
+    return 'reservations service is up and running!';
   }
 }
